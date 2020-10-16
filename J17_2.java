@@ -1,0 +1,73 @@
+// 클래스 옆에 <T>는 제네릭의 표시로서 예비 데이터 타입입니다.
+public class J17_2<T> {
+    // 내부 Node 클래스
+    class Node {
+        // 데이터를 넣을 변수 (데이터 타입을 외부에서 설정)
+        T data;
+        // 다음 포인터
+        Node next;
+        // 생성자
+        Node(T data, Node next) {
+            this.data = data;
+            this.next = next;
+        }
+    }
+    // 현재 Node 포인터
+    private Node pointer = null;
+    // add 함수는 데이터를 넣는다. (파라미터 데이터 타입은 외부에서 설정)
+    public void add(T data) {
+        // 현재 포인터에 Node를 만들어 값을 넣는다. 다음 pointer는 이전에 있던 pointer 값을 넣는다.
+        pointer = new Node(data, pointer);
+    }
+    // pop 함수는 pointer의 값을 리턴한다. (반환값의 데이터 타입은 외부에서 설정)
+    public T pop() {
+        // Stack 알고리즘에 데이터가 없으면 null exception을 내보낸다.
+        if (pointer == null) {
+            // Null 예외 처리
+            throw new NullPointerException();
+        }
+        try {
+            // 현재 포인터에 있는 값을 리턴
+            return pointer.data;
+        } finally {
+            // 포인터 이동
+            pointer = pointer.next;
+        }
+    }
+    // 현재 포인터가 null인지 확인하는 함수
+    public boolean isNull() {
+        return pointer == null;
+    }
+    // 실행 함수
+    public static void main(String ...args) {
+        // 연결형 Stack 클래스 선언 내부 제네릭 데이터 타입은 Integer형
+        J17_2<Integer> ex = new J17_2<>();
+        // 값을 넣는다.
+        ex.add(10);
+        ex.add(20);
+        ex.add(30);
+        ex.add(40);
+        int sum = 0;
+        // 값을 모두 더한다.
+        while (!ex.isNull()) {
+            sum += ex.pop();
+        }
+        // 총합의 값 출력
+        System
+            .out
+            .println("ex sum " + sum);
+        // 내부 제네릭 데이터 타입은 String형
+        J17_2<String> ex2 = new J17_2<>();
+        // 값을 넣는다.
+        ex2.add("a");
+        ex2.add("b");
+        ex2.add("c");
+        // 값을 출력한다.
+        while (!ex2.isNull()) {
+            System
+                .out
+                .println("print - " + ex2.pop());
+        }
+    }
+
+}
